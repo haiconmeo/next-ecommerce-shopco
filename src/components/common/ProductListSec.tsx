@@ -1,71 +1,40 @@
 import React from "react";
-import * as motion from "framer-motion/client";
-import { cn } from "@/lib/utils";
-import { integralCF } from "@/styles/fonts";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/ui/carousel";
-import ProductCard from "./ProductCard";
 import { Product } from "@/types/product.types";
+import ProductCard from "./ProductCard";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
-type ProductListSecProps = {
+interface ProductListSecProps {
   title: string;
   data: Product[];
   viewAllLink?: string;
-};
+}
 
-const ProductListSec = ({ title, data, viewAllLink }: ProductListSecProps) => {
+const ProductListSec: React.FC<ProductListSecProps> = ({
+  title,
+  data,
+  viewAllLink,
+}) => {
   return (
-    <section className="max-w-frame mx-auto text-center">
-      <motion.h2
-        initial={{ y: "100px", opacity: 0 }}
-        whileInView={{ y: "0", opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className={cn([
-          integralCF.className,
-          "text-[32px] md:text-5xl mb-8 md:mb-14 capitalize",
-        ])}
-      >
-        {title}
-      </motion.h2>
-      <motion.div
-        initial={{ y: "100px", opacity: 0 }}
-        whileInView={{ y: "0", opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.6, duration: 0.6 }}
-      >
-        <Carousel
-          opts={{
-            align: "start",
-          }}
-          className="w-full mb-6 md:mb-9"
-        >
-          <CarouselContent className="mx-4 xl:mx-0 space-x-4 sm:space-x-5">
-            {data.map((product) => (
-              <CarouselItem
-                key={product.id}
-                className="w-full max-w-[198px] sm:max-w-[295px] pl-0"
-              >
-                <ProductCard data={product} />
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
-        {viewAllLink && (
-          <div className="w-full px-4 sm:px-0 text-center">
-            <Link
-              href={viewAllLink}
-              className="w-full inline-block sm:w-[218px] px-[54px] py-4 border rounded-full hover:bg-black hover:text-white text-black transition-all font-medium text-sm sm:text-base border-black/10"
-            >
-              View All
+    <section>
+      <div className="max-w-frame mx-auto px-4 xl:px-0">
+        <div className="flex justify-between items-center mb-6 md:mb-8">
+          <h2 className="font-serif text-3xl md:text-4xl font-bold text-[#4A2E20]">
+            {title}
+          </h2>
+          {viewAllLink && (
+            <Link href={viewAllLink} className="flex items-center gap-2 text-[#4A2E20] hover:text-[#8E4B37] transition-colors">
+              <span className="font-medium">Xem tất cả</span>
+              <ArrowRight className="w-4 h-4" />
             </Link>
-          </div>
-        )}
-      </motion.div>
+          )}
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-5">
+          {data.map((product) => (
+            <ProductCard key={product.id} data={product} />
+          ))}
+        </div>
+      </div>
     </section>
   );
 };

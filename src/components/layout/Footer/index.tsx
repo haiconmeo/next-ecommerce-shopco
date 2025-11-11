@@ -1,147 +1,140 @@
-import { cn } from "@/lib/utils";
-import { integralCF } from "@/styles/fonts";
-import React from "react";
-import { PaymentBadge, SocialNetworks } from "./footer.types";
-import { FaFacebookF, FaGithub, FaInstagram, FaTwitter } from "react-icons/fa";
+import { Facebook, Instagram, Twitter, Youtube } from "lucide-react";
 import Link from "next/link";
-import LinksSection from "./LinksSection";
-import Image from "next/image";
-import NewsLetterSection from "./NewsLetterSection";
-import LayoutSpacing from "./LayoutSpacing";
-
-const socialsData: SocialNetworks[] = [
-  {
-    id: 1,
-    icon: <FaTwitter />,
-    url: "https://twitter.com",
-  },
-  {
-    id: 2,
-    icon: <FaFacebookF />,
-    url: "https://facebook.com",
-  },
-  {
-    id: 3,
-    icon: <FaInstagram />,
-    url: "https://instagram.com",
-  },
-  {
-    id: 4,
-    icon: <FaGithub />,
-    url: "https://github.com/mohammadoftadeh",
-  },
-];
-
-const paymentBadgesData: PaymentBadge[] = [
-  {
-    id: 1,
-    srcUrl: "/icons/Visa.svg",
-  },
-  {
-    id: 2,
-    srcUrl: "/icons/mastercard.svg",
-  },
-  {
-    id: 3,
-    srcUrl: "/icons/paypal.svg",
-  },
-  {
-    id: 4,
-    srcUrl: "/icons/applePay.svg",
-  },
-  {
-    id: 5,
-    srcUrl: "/icons/googlePay.svg",
-  },
-];
+import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="mt-10">
-      <div className="relative">
-        <div className="absolute bottom-0 w-full h-1/2 bg-[#F0F0F0]"></div>
-        <div className="px-4">
-          <NewsLetterSection />
-        </div>
-      </div>
-      <div className="pt-8 md:pt-[50px] bg-[#F0F0F0] px-4 pb-4">
-        <div className="max-w-frame mx-auto">
-          <nav className="lg:grid lg:grid-cols-12 mb-8">
-            <div className="flex flex-col lg:col-span-3 lg:max-w-[248px]">
-              <h1
-                className={cn([
-                  integralCF.className,
-                  "text-[28px] lg:text-[32px] mb-6",
-                ])}
-              >
-                SHOP.CO
-              </h1>
-              <p className="text-black/60 text-sm mb-9">
-                We have clothes that suits your style and which you’re proud to
-                wear. From women to men.
-              </p>
-              <div className="flex items-center">
-                {socialsData.map((social) => (
-                  <Link
-                    href={social.url}
-                    key={social.id}
-                    className="bg-white hover:bg-black hover:text-white transition-all mr-3 w-7 h-7 rounded-full border border-black/20 flex items-center justify-center p-1.5"
-                  >
-                    {social.icon}
-                  </Link>
-                ))}
-              </div>
-            </div>
-            <div className="hidden lg:grid col-span-9 lg:grid-cols-4 lg:pl-10">
-              <LinksSection />
-            </div>
-            <div className="grid lg:hidden grid-cols-2 sm:grid-cols-4">
-              <LinksSection />
-            </div>
-          </nav>
-
-          <hr className="h-[1px] border-t-black/10 mb-6" />
-          <div className="flex flex-col sm:flex-row justify-center sm:justify-between items-center mb-2">
-            <p className="text-sm text-center sm:text-left text-black/60 mb-4 sm:mb-0 sm:mr-1">
-              Shop.co © Made by{" "}
-              <Link
-                href="https://github.com/mohammadoftadeh"
-                className="text-black font-medium"
-              >
-                Mohammad Oftadeh
-              </Link>
-              {", "}
-              Designed by{" "}
-              <Link
-                href="https://www.figma.com/@hamzauix"
-                className="text-black font-medium"
-              >
-                Hamza Naeem
-              </Link>
+    <footer className="bg-[#4A2E20] text-[#FBF9F5]/80 pt-12 pb-8">
+      <div className="max-w-frame mx-auto px-4">
+        {/* Phần trên */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8 mb-10">
+          {/* Cột 1: Giới thiệu */}
+          <div className="md:col-span-2 lg:col-span-1">
+            <Link
+              href="/"
+              className="font-serif text-2xl font-bold text-white mb-4 inline-block"
+            >
+              AN LẠC
+            </Link>
+            <p className="text-sm leading-relaxed">
+              Nơi mang đến những pháp khí, vật phẩm Phật giáo trợ duyên cho quý
+              Phật tử trên con đường tu tập, tìm về sự bình an và chánh niệm.
             </p>
-            <div className="flex items-center">
-              {paymentBadgesData.map((badge, _, arr) => (
-                <span
-                  key={badge.id}
-                  className={cn([
-                    arr.length !== badge.id && "mr-3",
-                    "w-[46px] h-[30px] rounded-[5px] border-[#D6DCE5] bg-white flex items-center justify-center",
-                  ])}
+          </div>
+
+          {/* Cột 2: Liên kết */}
+          <div>
+            <h4 className="font-semibold text-white mb-4">TRANG</h4>
+            <ul className="space-y-3">
+              <li>
+                <Link href="/" className="hover:text-white transition-colors">
+                  Trang Chủ
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/product"
+                  className="hover:text-white transition-colors"
                 >
-                  <Image
-                    priority
-                    src={badge.srcUrl}
-                    width={33}
-                    height={100}
-                    alt="user"
-                    className="max-h-[15px]"
-                  />
-                </span>
-              ))}
-            </div>
+                  Tất Cả Vật Phẩm
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/ve-chung-toi"
+                  className="hover:text-white transition-colors"
+                >
+                  Về Chúng Tôi
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/lien-he"
+                  className="hover:text-white transition-colors"
+                >
+                  Liên Hệ
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Cột 3: Hỗ trợ */}
+          <div>
+            <h4 className="font-semibold text-white mb-4">HỖ TRỢ</h4>
+            <ul className="space-y-3">
+              <li>
+                <Link
+                  href="/chinh-sach-doi-tra"
+                  className="hover:text-white transition-colors"
+                >
+                  Chính Sách Đổi Trả
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/chinh-sach-bao-mat"
+                  className="hover:text-white transition-colors"
+                >
+                  Chính Sách Bảo Mật
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/dieu-khoan-dich-vu"
+                  className="hover:text-white transition-colors"
+                >
+                  Điều Khoản Dịch Vụ
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Cột 4: Bản tin */}
+          <div>
+            <h4 className="font-semibold text-white mb-4">BẢN TIN AN LẠC</h4>
+            <p className="text-sm mb-4">
+              Đăng ký để nhận thông tin về các pháp khí mới và bài viết chia sẻ
+              kiến thức Phật pháp.
+            </p>
+            <form className="flex">
+              <input
+                type="email"
+                placeholder="Nhập email của bạn"
+                className="w-full px-4 py-2 bg-[#FBF9F5]/20 rounded-l-md focus:outline-none focus:ring-2 focus:ring-[#8E4B37] text-white placeholder:text-[#FBF9F5]/50"
+              />
+              <button
+                type="submit"
+                className="bg-[#8E4B37] hover:bg-[#7a412f] text-white px-4 py-2 rounded-r-md transition-colors"
+              >
+                Đăng Ký
+              </button>
+            </form>
           </div>
         </div>
-        <LayoutSpacing />
+
+        {/* Đường kẻ ngang */}
+        <hr className="border-t border-white/10" />
+
+        {/* Phần dưới */}
+        <div className="flex flex-col-reverse md:flex-row items-center justify-between pt-8 gap-4">
+          <p className="text-sm text-center md:text-left">
+            &copy; {new Date().getFullYear()} An Lạc. Gieo duyên an lành.
+          </p>
+          <div className="flex items-center space-x-4">
+            <Link href="#" aria-label="Facebook">
+              <Facebook className="w-5 h-5 hover:text-white transition-colors" />
+            </Link>
+            <Link href="#" aria-label="Instagram">
+              <Instagram className="w-5 h-5 hover:text-white transition-colors" />
+            </Link>
+            <Link href="#" aria-label="Twitter">
+              <Twitter className="w-5 h-5 hover:text-white transition-colors" />
+            </Link>
+            <Link href="#" aria-label="Youtube">
+              <Youtube className="w-5 h-5 hover:text-white transition-colors" />
+            </Link>
+          </div>
+        </div>
       </div>
     </footer>
   );

@@ -1,120 +1,100 @@
 "use client";
 
-import BreadcrumbCart from "@/components/cart-page/BreadcrumbCart";
-import ProductCard from "@/components/cart-page/ProductCard";
-import { Button } from "@/components/ui/button";
-import InputGroup from "@/components/ui/input-group";
-import { cn } from "@/lib/utils";
-import { integralCF } from "@/styles/fonts";
-import { FaArrowRight } from "react-icons/fa6";
-import { MdOutlineLocalOffer } from "react-icons/md";
+import Breadcrumb from "@/components/common/Breadcrumb";
+import CartItemCard from "@/components/cart-page/CartItemCard";
+import { useCart } from "@/types/CartContext";
 import { TbBasketExclamation } from "react-icons/tb";
 import React from "react";
-import { RootState } from "@/lib/store";
-import { useAppSelector } from "@/lib/hooks/redux";
 import Link from "next/link";
+import { ArrowRight, Tag } from "lucide-react";
 
 export default function CartPage() {
-  const { cart, totalPrice, adjustedTotalPrice } = useAppSelector(
-    (state: RootState) => state.carts
-  );
+  const { cartItems, totalPrice } = useCart();
+
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(price);
+  };
 
   return (
-    <main className="pb-20">
+    <main className="bg-[#FBF9F5] pb-20 font-serif">
       <div className="max-w-frame mx-auto px-4 xl:px-0">
-        {cart && cart.items.length > 0 ? (
+        <hr className="h-[1px] border-t-[#4A2E20]/10" />
+        {cartItems.length > 0 ? (
           <>
-            <BreadcrumbCart />
-            <h2
-              className={cn([
-                integralCF.className,
-                "font-bold text-[32px] md:text-[40px] text-black uppercase mb-5 md:mb-6",
-              ])}
-            >
-              your cart
-            </h2>
+            <div className="my-6">
+              <Breadcrumb
+                items={[
+                  { label: "Trang Chủ", href: "/" },
+                  { label: "Giỏ Hàng", href: "/cart" },
+                ]}
+              />
+              <h1 className="text-4xl md:text-5xl font-bold text-[#4A2E20]">
+                Giỏ Hàng Của Bạn
+              </h1>
+            </div>
+
             <div className="flex flex-col lg:flex-row space-y-5 lg:space-y-0 lg:space-x-5 items-start">
-              <div className="w-full p-3.5 md:px-6 flex-col space-y-4 md:space-y-6 rounded-[20px] border border-black/10">
-                {cart?.items.map((product, idx, arr) => (
-                  <React.Fragment key={idx}>
-                    <ProductCard data={product} />
+              {/* Danh sách sản phẩm trong giỏ */}
+              <div className="w-full p-5 md:p-6 flex-col space-y-5 rounded-2xl border border-[#4A2E20]/10 bg-white">
+                {cartItems.map((item, idx, arr) => (
+                  <React.Fragment key={item.id}>
+                    <CartItemCard item={item} />
                     {arr.length - 1 !== idx && (
-                      <hr className="border-t-black/10" />
+                      <hr className="border-t-[#4A2E20]/10" />
                     )}
                   </React.Fragment>
                 ))}
               </div>
-              <div className="w-full lg:max-w-[505px] p-5 md:px-6 flex-col space-y-4 md:space-y-6 rounded-[20px] border border-black/10">
-                <h6 className="text-xl md:text-2xl font-bold text-black">
-                  Order Summary
-                </h6>
-                <div className="flex flex-col space-y-5">
+
+              {/* Tóm tắt đơn hàng */}
+              <div className="w-full lg:max-w-[420px] p-5 md:p-6 flex-col space-y-5 rounded-2xl border border-[#4A2E20]/10 bg-white">
+                <h2 className="text-2xl font-bold text-[#4A2E20]">
+                  Tóm Tắt Đơn Hàng
+                </h2>
+                <div className="flex flex-col space-y-4 text-lg">
                   <div className="flex items-center justify-between">
-                    <span className="md:text-xl text-black/60">Subtotal</span>
-                    <span className="md:text-xl font-bold">${totalPrice}</span>
+                    <span className="text-[#4A2E20]/60">Tạm tính</span>
+                    <span className="font-semibold text-[#4A2E20]">{formatPrice(totalPrice)}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="md:text-xl text-black/60">
-                      Discount (-
-                      {Math.round(
-                        ((totalPrice - adjustedTotalPrice) / totalPrice) * 100
-                      )}
-                      %)
-                    </span>
-                    <span className="md:text-xl font-bold text-red-600">
-                      -${Math.round(totalPrice - adjustedTotalPrice)}
-                    </span>
+                    <span className="text-[#4A2E20]/60">Phí vận chuyển</span>
+                    <span className="font-semibold text-[#4A2E20]">Miễn phí</span>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span className="md:text-xl text-black/60">
-                      Delivery Fee
-                    </span>
-                    <span className="md:text-xl font-bold">Free</span>
-                  </div>
-                  <hr className="border-t-black/10" />
-                  <div className="flex items-center justify-between">
-                    <span className="md:text-xl text-black">Total</span>
-                    <span className="text-xl md:text-2xl font-bold">
-                      ${Math.round(adjustedTotalPrice)}
+                  <hr className="border-t-[#4A2E20]/10" />
+                  <div className="flex items-center justify-between font-bold">
+                    <span className="text-xl text-[#4A2E20]">Tổng cộng</span>
+                    <span className="text-2xl text-[#8E4B37]">
+                      {formatPrice(totalPrice)}
                     </span>
                   </div>
                 </div>
-                <div className="flex space-x-3">
-                  <InputGroup className="bg-[#F0F0F0]">
-                    <InputGroup.Text>
-                      <MdOutlineLocalOffer className="text-black/40 text-2xl" />
-                    </InputGroup.Text>
-                    <InputGroup.Input
-                      type="text"
-                      name="code"
-                      placeholder="Add promo code"
-                      className="bg-transparent placeholder:text-black/40"
-                    />
-                  </InputGroup>
-                  <Button
-                    type="button"
-                    className="bg-black rounded-full w-full max-w-[119px] h-[48px]"
-                  >
-                    Apply
-                  </Button>
+                <div className="flex space-x-2">
+                  <div className="relative flex-1">
+                    <Tag className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#4A2E20]/40" />
+                    <input type="text" placeholder="Mã giảm giá" className="w-full pl-10 pr-4 py-3 bg-[#FBF9F5] border border-[#4A2E20]/20 rounded-full focus:outline-none focus:ring-2 focus:ring-[#8E4B37]" />
+                  </div>
+                  <button type="button" className="bg-[#4A2E20] hover:bg-[#331e16] text-white font-semibold px-6 py-3 rounded-full transition-colors">
+                    Áp dụng
+                  </button>
                 </div>
-                <Button
-                  type="button"
-                  className="text-sm md:text-base font-medium bg-black rounded-full w-full py-4 h-[54px] md:h-[60px] group"
-                >
-                  Go to Checkout{" "}
-                  <FaArrowRight className="text-xl ml-2 group-hover:translate-x-1 transition-all" />
-                </Button>
+                <button type="button" className="w-full bg-[#8E4B37] hover:bg-[#7a412f] text-white font-semibold px-6 py-4 rounded-full transition-colors flex items-center justify-center gap-2 group">
+                  <span>Tiến hành thanh toán</span>
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </button>
               </div>
             </div>
           </>
         ) : (
-          <div className="flex items-center flex-col text-gray-300 mt-32">
-            <TbBasketExclamation strokeWidth={1} className="text-6xl" />
-            <span className="block mb-4">Your shopping cart is empty.</span>
-            <Button className="rounded-full w-24" asChild>
-              <Link href="/shop">Shop</Link>
-            </Button>
+          <div className="flex items-center flex-col text-[#4A2E20]/40 text-center py-24">
+            <TbBasketExclamation strokeWidth={1} className="text-8xl mb-4" />
+            <h2 className="text-2xl font-semibold text-[#4A2E20]/80 mb-2">Giỏ hàng của bạn đang trống</h2>
+            <p className="mb-6">Hãy cùng An Lạc gieo duyên lành qua những vật phẩm ý nghĩa.</p>
+            <Link href="/product" className="bg-[#8E4B37] hover:bg-[#7a412f] text-white font-semibold px-8 py-3 rounded-full transition-colors">
+              Khám Phá Vật Phẩm
+            </Link>
           </div>
         )}
       </div>

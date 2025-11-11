@@ -1,47 +1,47 @@
 import Image from "next/image";
 import React from "react";
 
-const brandsData: { id: string; srcUrl: string }[] = [
+const valuesData: { id: string; srcUrl: string; label: string }[] = [
   {
-    id: "versace",
-    srcUrl: "/icons/versace-logo.svg",
+    id: "compassion",
+    srcUrl: "/icons/value-compassion.svg", // Icon hình trái tim hoặc bàn tay che chở
+    label: "Từ Bi",
   },
   {
-    id: "zara",
-    srcUrl: "/icons/zara-logo.svg",
+    id: "wisdom",
+    srcUrl: "/icons/value-wisdom.svg", // Icon hình hoa sen hoặc quyển kinh
+    label: "Trí Tuệ",
   },
   {
-    id: "gucci",
-    srcUrl: "/icons/gucci-logo.svg",
+    id: "peace",
+    srcUrl: "/icons/value-peace.svg", // Icon hình chim bồ câu hoặc đá cân bằng
+    label: "Bình An",
   },
   {
-    id: "prada",
-    srcUrl: "/icons/prada-logo.svg",
-  },
-  {
-    id: "calvin-klein",
-    srcUrl: "/icons/calvin-klein-logo.svg",
+    id: "mindfulness",
+    srcUrl: "/icons/value-mindfulness.svg", // Icon hình vòng tròn enso hoặc người ngồi thiền
+    label: "Chánh Niệm",
   },
 ];
 
-const Brands = () => {
+const CoreValues = () => {
   return (
-    <div className="bg-black">
-      <div className="max-w-frame mx-auto flex flex-wrap items-center justify-center md:justify-between py-5 md:py-0 sm:px-4 xl:px-0 space-x-7">
-        {brandsData.map((brand) => (
-          <Image
-            key={brand.id}
-            priority
-            src={brand.srcUrl}
-            height={0}
-            width={0}
-            alt={brand.id}
-            className="h-auto w-auto max-w-[116px] lg:max-w-48 max-h-[26px] lg:max-h-9 my-5 md:my-11"
-          />
+    <div className="bg-[#FBF9F5]">
+      <div className="max-w-frame mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 py-10 md:py-12 px-4">
+        {valuesData.map((value) => (
+          <div key={value.id} className="flex flex-col items-center space-y-3">
+            <Image
+              src={value.srcUrl}
+              width={48}
+              height={48}
+              alt={value.label}
+            />
+            <span className="font-serif text-lg text-[#4A2E20]">{value.label}</span>
+          </div>
         ))}
       </div>
     </div>
   );
 };
 
-export default Brands;
+export default CoreValues;
